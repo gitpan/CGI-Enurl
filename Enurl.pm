@@ -3,7 +3,7 @@
 
 CGI::Enurl.pm - module for URL-encoding strings and hashes
 
-version 1.06
+version 1.07
 
 =head1 SYNOPSIS
 
@@ -50,14 +50,14 @@ Notice the difference :
  enurl 'a&b=f o o'   =>   'a%26b%3Df+o+o'
  enURL 'a&b=f o o'   =>   'a&b=f+o+o'
 
-=item $Enurl::ParamSeparator
+=item $CGI::Enurl::ParamSeparator
 
 You may specify another character to be used as the parameter separator.
 Simply set this variable to the character (or string) you want to use.
 
 The default value is '&'
 
-=item $Enurl::KeepUnencoded
+=item $CGI::Enurl::KeepUnencoded
 
 This variable contains the characters that should stay unencoded.
 Please keep in mind that the string will be interpolated into a regexp
@@ -99,7 +99,7 @@ or
 
  print "Location: http://www.somewhere.com/Scripts/myscript.pl?",
   enURL('fname=Jan&lname=Krynický&tel=+420-2-9618 1234&1',"\n\n";
- 
+
 
 or using the tricks of Interpolation.pm - http://www.plover.com/~mjd/perl/Interpolation/manual.html
 
@@ -156,7 +156,7 @@ Please read the docs for enurl versus enURL so that you understand the differenc
 
 #!/big/bin/perl
 package CGI::Enurl;
-$VERSION='1.06';
+$VERSION='1.07';
 require Exporter;
 @ISA = (Exporter);
 @EXPORT = qw(&enurl &enURL);
@@ -172,7 +172,7 @@ sub enurl {
   if (ref $item eq 'HASH') {
    my $key;
    foreach $key (keys %$item) {
-    if (int $key eq $key) {
+    if ($key =~ /^\d+$/) {
      if (ref $item->{$key} eq 'ARRAY') {
          foreach (@{$item->{$key}}) {
              push @data,enurl_str($_);
@@ -230,7 +230,7 @@ Jan Krynicky <Jenda@Krynicky.cz>
 
 =head2 COPYRIGHT
 
-Copyright (c) 1997 Jan Krynicky <Jenda@Krynicky.cz>. All rights reserved.
+Copyright (c) 1997-2001 Jan Krynicky <Jenda@Krynicky.cz>. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
