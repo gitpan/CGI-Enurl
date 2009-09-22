@@ -32,6 +32,12 @@ test_enurl 'hello+world&others', ['hello world', 'others'];
 test_enurl 'hello+world&others', {1 => 'hello world', 2 => 'others'};
 
 test_enurl 'greeting=hello+world&name=Jenda', {greeting => 'hello world', name => 'Jenda'};
+test_enurl 'greeting=hello+world&name%3Djmeno=Jenda', {greeting => 'hello world', 'name=jmeno' => 'Jenda'};
+test_enurl 'greeting=hello+world&name=Jenda=Benda', {greeting => 'hello world', name => 'Jenda=Benda'};
+test_enurl 'greeting=hello+world&name=Jend%E1', {greeting => 'hello world', name => 'Jendá'};
+
+test_enurl 'greeting=hello+world&name=Jenda&name=Pavel&name=Martin', {greeting => 'hello world',
+	name => [qw(Jenda Pavel Martin)]};
 
 test_enurl 'hello+world&name=Jenda', {1 => 'hello world', name => 'Jenda'};
 

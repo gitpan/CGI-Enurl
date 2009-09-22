@@ -15,3 +15,6 @@ Revision history for Perl extension Enurl.
 
 1.07
 	- fixed some numerical warnings
+
+1.08
+	- made sure = sign is escaped in parameter names

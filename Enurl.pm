@@ -3,7 +3,7 @@
 
 CGI::Enurl.pm - module for URL-encoding strings and hashes
 
-version 1.07
+version 1.08
 
 =head1 SYNOPSIS
 
@@ -156,7 +156,7 @@ Please read the docs for enurl versus enURL so that you understand the differenc
 
 #!/big/bin/perl
 package CGI::Enurl;
-$VERSION='1.07';
+$VERSION='1.08';
 require Exporter;
 @ISA = (Exporter);
 @EXPORT = qw(&enurl &enURL);
@@ -183,10 +183,10 @@ sub enurl {
     } else {
      if (ref $item->{$key} eq 'ARRAY') {
          foreach (@{$item->{$key}}) {
-             push @data,(enurl_str($key).'='.enurl_str($_));
+             push @data,(enurl_key($key).'='.enurl_str($_));
          }
      } else {
-         push @data,(enurl_str($key).'='.enurl_str($item->{$key}));
+         push @data,(enurl_key($key).'='.enurl_str($item->{$key}));
      }
     }
    }
@@ -206,6 +206,13 @@ sub enurl {
 sub enurl_str {
     my($toencode) = @_;
     $toencode=~s/([^$KeepUnencoded])/sprintf("%%%02X",ord($1))/ego;
+    $toencode=~s/ /+/gm;
+    return $toencode;
+}
+
+sub enurl_key {
+    my($toencode) = @_;
+    $toencode=~s/([^a-zA-Z 0-9_\-@.])/sprintf("%%%02X",ord($1))/ego;
     $toencode=~s/ /+/gm;
     return $toencode;
 }
